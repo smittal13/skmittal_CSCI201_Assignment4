@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -22,6 +23,7 @@ import customUI.PaintedButton;
 import customUI.PaintedPanel;
 import library.FontLibrary;
 import library.ImageLibrary;
+import networking.SorryClient;
 
 public class JoinScreen extends PaintedPanel {
 
@@ -31,6 +33,8 @@ public class JoinScreen extends PaintedPanel {
 	private JButton connect;
 	private final Dimension buttonSize = new Dimension (150, 35);
 	private final Insets spacing = new Insets(60,80,60,80);
+	private int portInt;
+	private String hostString;
 	
 	public JoinScreen(ActionListener connectAction, Image inImage) {
 		super(inImage, true);
@@ -84,6 +88,19 @@ public class JoinScreen extends PaintedPanel {
 		//Add panels to screen
 		add(topPanel);
 		add(connectPanel);
+	}
+	public int getPortInt() {
+		if (portEntry != null) {
+			portInt = Integer.parseInt(portEntry.getText());
+		}
+		return portInt;
+	}
+	
+	public String getHostString() {
+		if (hostString != null) {
+			hostString = ipEntry.getText();
+		}
+		return hostString;
 	}
 
 }

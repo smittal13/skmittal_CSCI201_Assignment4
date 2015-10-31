@@ -19,8 +19,9 @@ import customUI.PaintedButton;
 import customUI.PaintedPanel;
 import library.FontLibrary;
 import library.ImageLibrary;
+import networking.MessageProcessor;
 
-public class ColorSelector extends PaintedPanel {
+public class ColorSelector extends PaintedPanel implements MessageProcessor {
 	
 	private static final long serialVersionUID = 1900724217285760485L;
 	
@@ -97,6 +98,10 @@ public class ColorSelector extends PaintedPanel {
 		add(topPanel);
 		add(centerPanel);
 		add(bottomPanel);
+	}
+
+	public void ProcessMessage() {
+		
 	}
 
 }

@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
@@ -20,6 +21,7 @@ import customUI.PaintedButton;
 import customUI.PaintedPanel;
 import library.FontLibrary;
 import library.ImageLibrary;
+import networking.SorryServer;
 
 public class HostScreen extends PaintedPanel {
 
@@ -28,7 +30,7 @@ public class HostScreen extends PaintedPanel {
 	private JButton start;
 	private JPanel portPanel, startPanel;
 	private final Dimension buttonSize = new Dimension (120, 35);
-	private Font f;
+	private int portNumber;
 	
 	public HostScreen(ActionListener startAction, Image inImage) {
 		super(inImage, true);
@@ -63,6 +65,13 @@ public class HostScreen extends PaintedPanel {
 		add(Box.createGlue());
 		add(portPanel);
 		add(startPanel);
+	}
+	
+	public int getPortNumber() {
+		if (entry != null) {
+			portNumber = Integer.parseInt(entry.getText());
+		}
+		return portNumber;
 	}
 
 }

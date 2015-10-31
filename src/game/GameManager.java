@@ -5,13 +5,14 @@ import java.io.File;
 
 import customUI.CardDialog;
 import game.CardDeck.Card;
+import networking.MessageProcessor;
 import sorryclient.GamePanel;
 
 /*
  * GameManager
  * Actual logic for the game play
  * */
-public class GameManager {
+public class GameManager implements MessageProcessor {
 	private final static String filePath = "src/game/board";
 	private final GameBoard mGameBoard;
 	
@@ -1036,6 +1037,10 @@ public class GameManager {
 	public void resetSelection() {
 		mSelectedTile = null;
 		mGameBoard.resetSelections();
+	}
+	
+	public void ProcessMessage() {
+		
 	}
 	
 }

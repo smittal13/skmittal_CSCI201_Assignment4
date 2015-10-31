@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import game.GameManager;
 import library.ImageLibrary;
+import networking.*;
 
 public class ClientPanel extends JPanel {
 	private static final long serialVersionUID = 6415716059554739910L;
@@ -62,6 +63,7 @@ public class ClientPanel extends JPanel {
 				ClientPanel.this.add(colorSelect);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
+				new SorryClient(joinScreen.getHostString(), joinScreen.getPortInt());
 			}
 		},ImageLibrary.getImage("images/panels/grey_panel.png"));
 		numPlayerSelect = new NumPlayerSelector(new ActionListener() {
@@ -71,6 +73,9 @@ public class ClientPanel extends JPanel {
 				ClientPanel.this.add(colorSelect);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
+				SorryServer ss = new SorryServer(hostScreen.getPortNumber(), numPlayerSelect.getNumberOfPlayers());
+				new SorryClient("localhost", hostScreen.getPortNumber());
+				new Thread(ss).start();
 			}
 		},ImageLibrary.getImage("images/panels/grey_panel.png"));
 		colorSelect = new ColorSelector(new ActionListener() {

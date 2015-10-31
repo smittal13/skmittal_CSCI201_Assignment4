@@ -11,6 +11,7 @@ public class SorryThread extends Thread {
 	private PrintWriter pw;
 	private SorryServer ss;
 	private Socket s;
+	String line = null;
 	public SorryThread(Socket s, SorryServer ss) {
 		this.s = s;
 		this.ss = ss;
@@ -31,11 +32,16 @@ public class SorryThread extends Thread {
 		return this.s;
 	}
 	public void run() {
+		PrintChatMessage();
+	}
+	
+	private void PrintChatMessage() {
 		try {
 			while (true) {
-				String line = br.readLine();
+				line = br.readLine();
 				if (line != null) {
 					ss.sendMessageToAllClients(line, this);
+					line = null;
 				}
 				else {
 					break;

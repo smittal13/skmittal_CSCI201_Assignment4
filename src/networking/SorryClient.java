@@ -17,13 +17,6 @@ public class SorryClient {
 			Socket s = new Socket (hostname, port);
 			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			pw = new PrintWriter(s.getOutputStream());
-		//	this.start();
-			Scanner scan = new Scanner(System.in);
-			while (true) {
-				String line = scan.nextLine();
-				pw.println("Sagar: " + line);
-				pw.flush();
-			}
 		} catch (IOException ioe) {
 			System.out.println("ioe: " + ioe.getMessage());
 		}
@@ -40,5 +33,10 @@ public class SorryClient {
 		} catch (IOException ioe) {
 			System.out.println("ioe chat client: " + ioe.getMessage());
 		}
+	}
+	
+	public void SendString(String line) {
+		pw.println("Sagar: " + line);
+		pw.flush();
 	}
 }
