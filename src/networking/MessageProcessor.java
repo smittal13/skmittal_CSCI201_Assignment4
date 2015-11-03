@@ -2,6 +2,6 @@ package networking;
 
 public interface MessageProcessor {
 	
-	public void ProcessMessage();
+	public void ProcessMessage(String message);
 	
 }

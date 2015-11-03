@@ -1039,7 +1039,7 @@ public class GameManager implements MessageProcessor {
 		mGameBoard.resetSelections();
 	}
 	
-	public void ProcessMessage() {
+	public void ProcessMessage(String message) {
 		
 	}
 	

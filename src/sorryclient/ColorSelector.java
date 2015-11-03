@@ -75,10 +75,7 @@ public class ColorSelector extends PaintedPanel implements MessageProcessor {
 			optionButtons[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent ae) {
-					selection = colors[buttonSelection];
-					for(JButton button : optionButtons) button.setEnabled(true);
-					optionButtons[buttonSelection].setEnabled(false);
-					confirmButton.setEnabled(true);
+					ButtonAction(buttonSelection);
 				}
 			});
 			optionButtons[i].setFont(buttonFont);
@@ -100,8 +97,27 @@ public class ColorSelector extends PaintedPanel implements MessageProcessor {
 		add(bottomPanel);
 	}
 
-	public void ProcessMessage() {
-		
+	public void ButtonAction (int buttonSelection) {
+		selection = colors[buttonSelection];
+		for(JButton button : optionButtons) button.setEnabled(true);
+		optionButtons[buttonSelection].setEnabled(false);
+		confirmButton.setEnabled(true);
+		ProcessMessage(colorNames[buttonSelection]);
+	}
+	
+	public void ProcessMessage(String message) {
+		if (message.equals("Red")) {
+			
+		}
+		else if (message.equals("Blue")) {
+			
+		}
+		else if (message.equals("Yellow")) {
+			
+		}
+		else {
+			
+		}
 	}
 
 }

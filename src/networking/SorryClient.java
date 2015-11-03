@@ -11,8 +11,9 @@ public class SorryClient {
 	
 	BufferedReader br;
 	PrintWriter pw;
+	boolean turnTracker;
 	
-	public SorryClient(String hostname, int port) {
+	public SorryClient(String hostname, int port, boolean turnTracker) {
 		try {
 			Socket s = new Socket (hostname, port);
 			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -20,6 +21,7 @@ public class SorryClient {
 		} catch (IOException ioe) {
 			System.out.println("ioe: " + ioe.getMessage());
 		}
+		this.turnTracker = turnTracker;
 	}
 	public void run() {
 		try {

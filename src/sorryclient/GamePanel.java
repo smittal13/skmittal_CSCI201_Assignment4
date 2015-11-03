@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ import game.GameManager;
 import game.Tile;
 import library.FontLibrary;
 import library.ImageLibrary;
+import networking.SorryClient;
 import score.Score;
 
 public class GamePanel extends JPanel {
@@ -33,6 +35,7 @@ public class GamePanel extends JPanel {
 	
 	private final static int boardSize = 16;
 	private final TilePanel[][] tileGrid;
+	private final ArrayList<SorryClient> clientArray;
 	
 	private final PaintedButton cardButton;
 	private final JLabel cardLabel;
@@ -54,10 +57,11 @@ public class GamePanel extends JPanel {
 		cardLabel.setFont(FontLibrary.getFont("fonts/kenvector_future.ttf", Font.PLAIN, 8));
 	}
 	
-	public GamePanel(ActionListener inQuitAction, GameManager inGameManager, Image inImage){
+	public GamePanel(ActionListener inQuitAction, GameManager inGameManager, Image inImage, ArrayList<SorryClient> clientArray){
 		gameLogo = inImage;
 		mGameManager = inGameManager;
 		mQuitAction = inQuitAction;
+		this.clientArray = clientArray;
 		setLayout(new GridLayout(boardSize,boardSize));
 		tileGrid = new TilePanel[boardSize][boardSize];
 		for(int y = 0; y < boardSize; ++y) {

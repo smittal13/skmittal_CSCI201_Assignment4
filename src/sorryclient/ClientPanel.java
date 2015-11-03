@@ -3,6 +3,7 @@ package sorryclient;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -19,8 +20,11 @@ public class ClientPanel extends JPanel {
 	private GamePanel gamePanel;
 	private HostScreen hostScreen;
 	private JoinScreen joinScreen;
+	private ChatPanel chatPanel;
+	private JPanel mainGamePanel;
 	
 	private GameManager gameManager;
+	private ArrayList<SorryClient> clientArray;
 	
 	{
 		mainMenu = new MainMenu(new ActionListener() {
@@ -63,7 +67,7 @@ public class ClientPanel extends JPanel {
 				ClientPanel.this.add(colorSelect);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
-				new SorryClient(joinScreen.getHostString(), joinScreen.getPortInt());
+				clientArray.add(new SorryClient(joinScreen.getHostString(), joinScreen.getPortInt(), false));
 			}
 		},ImageLibrary.getImage("images/panels/grey_panel.png"));
 		numPlayerSelect = new NumPlayerSelector(new ActionListener() {
@@ -74,8 +78,9 @@ public class ClientPanel extends JPanel {
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
 				SorryServer ss = new SorryServer(hostScreen.getPortNumber(), numPlayerSelect.getNumberOfPlayers());
-				new SorryClient("localhost", hostScreen.getPortNumber());
 				new Thread(ss).start();
+				clientArray = new ArrayList<SorryClient>();
+				clientArray.add(new SorryClient("localhost", hostScreen.getPortNumber(), true));
 			}
 		},ImageLibrary.getImage("images/panels/grey_panel.png"));
 		colorSelect = new ColorSelector(new ActionListener() {
@@ -86,13 +91,15 @@ public class ClientPanel extends JPanel {
 					colorSelect.getPlayerColor(), 
 					numPlayerSelect.getNumberOfPlayers()
 				);
-				ClientPanel.this.add(gamePanel);
+				ClientPanel.this.add(mainGamePanel);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
 			}
 		},ImageLibrary.getImage("images/panels/grey_panel.png"));
 		
 		gameManager = new GameManager();
+		mainGamePanel = new JPanel(new BorderLayout());
+		chatPanel = new ChatPanel();
 		gamePanel = new GamePanel(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -102,7 +109,10 @@ public class ClientPanel extends JPanel {
 				ClientPanel.this.repaint();
 				refreshComponents();
 			}
-		}, gameManager, ImageLibrary.getImage("images/sorry.png"));
+		}, gameManager, ImageLibrary.getImage("images/sorry.png"), clientArray);
+		
+		mainGamePanel.add(chatPanel, BorderLayout.SOUTH);
+		mainGamePanel.add(gamePanel, BorderLayout.CENTER);
 	}
 
 }
