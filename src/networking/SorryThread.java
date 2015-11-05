@@ -1,5 +1,6 @@
 package networking;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,8 +12,10 @@ public class SorryThread extends Thread {
 	private PrintWriter pw;
 	private SorryServer ss;
 	private Socket s;
+	private Color c;
+	
 	String line = null;
-	public SorryThread(Socket s, SorryServer ss) {
+	public SorryThread(Socket s, SorryServer ss, Color c) {
 		this.s = s;
 		this.ss = ss;
 		try {
@@ -21,6 +24,7 @@ public class SorryThread extends Thread {
 		} catch (IOException ioe) {
 			System.out.println("IOE message chat thread: " + ioe.getMessage());
 		}
+		this.c = c;
 	}
 	public void sendMessage(String message) {
 		if (pw != null) {
@@ -33,6 +37,10 @@ public class SorryThread extends Thread {
 	}
 	public void run() {
 		PrintChatMessage();
+	}
+	
+	public Color getColor() {
+		return c;
 	}
 	
 	private void PrintChatMessage() {

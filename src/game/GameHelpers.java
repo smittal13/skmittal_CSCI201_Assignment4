@@ -11,6 +11,7 @@ public class GameHelpers {
 	private static final Map<Color,String> slideLabelLookup = new HashMap<Color,String>();
 	private static final Map<Color,Integer> colorIndexLookup = new HashMap<Color,Integer>();
 	private static final Map<Color,String> colorNameLookup = new HashMap<Color,String>();
+	private static final Map<String, Integer> indexColorLookup = new HashMap<String, Integer>();
 	
 	static {
 		colorLookup.put("-", Color.BLACK);
@@ -33,10 +34,19 @@ public class GameHelpers {
 		colorNameLookup.put(colors[1], "blue");
 		colorNameLookup.put(colors[2], "yellow");
 		colorNameLookup.put(colors[3], "green");
+		
+		indexColorLookup.put("red", 1);
+		indexColorLookup.put("blue", 2);
+		indexColorLookup.put("yellow", 3);
+		indexColorLookup.put("green", 4);
 	}
 
 	public static Color getColorFromIndex(int index) {
 		return colors[index];
+	}
+	
+	public static Integer getIndexColor(String string) {
+		return indexColorLookup.get(string);
 	}
 	
 	public static Integer getIndexFromColor(Color color) {

@@ -8,30 +8,51 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+
+import customUI.PaintedButton;
+import library.ImageLibrary;
+import networking.SorryClient;
 
 public class ChatPanel extends JPanel {
 	
 	JTextField typingField;
+	JScrollPane jsp;
 	JTextArea displayArea;
 	JButton send;
 	JPanel bottomPanel;
-	String currentChatText;
+	String currentChatText, textToSend;
+	SorryClient sc;
 	
 	public ChatPanel() {
 		setLayout(new BorderLayout());
 		bottomPanel = new JPanel();
 		
 		displayArea = new JTextArea();
+		displayArea.setEditable(false);
 		displayArea.setBackground(Color.BLACK);
-		displayArea.setPreferredSize(new Dimension (640, 100));
-		add(displayArea, BorderLayout.CENTER);
+		displayArea.setForeground(Color.WHITE);
+		displayArea.setPreferredSize(new Dimension (640,100));
+		displayArea.setLineWrap(true);
+		displayArea.setWrapStyleWord(true);
 		
-		typingField = new JTextField(45);
+		jsp = new JScrollPane(displayArea);
+		jsp.setPreferredSize(new Dimension (640, 80));
+		add(jsp);
+		
+		typingField = new JTextField(this.WIDTH);
 		typingField.setPreferredSize(new Dimension (640, 25));
 		typingField.setBackground(Color.BLACK);
-		send = new JButton("Send");
+		typingField.setForeground(Color.WHITE);
+		send = new PaintedButton(
+				"Send",
+				ImageLibrary.getImage("images/buttons/grey_button00.png"),
+				ImageLibrary.getImage("images/buttons/grey_button01.png"),
+				22
+				);
 		
 		bottomPanel.add(typingField);
 		bottomPanel.add(send);
@@ -39,18 +60,23 @@ public class ChatPanel extends JPanel {
 		
 		send.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				currentChatText = getChatText();
-				displayArea.setText(currentChatText += getUserText() + "\n");
-				typingField.setText("");
+				textToSend = getChatText() + getUserText() + "\n";
+				SorryClient.SendString("chat - " + textToSend);
+				PrintMessage();
 			}
 		});
 	}
 	
-	private String getUserText() {
+	public String getUserText() {
 		return typingField.getText();
 	}
 	
 	public String getChatText() {
 		return displayArea.getText();
+	}
+	
+	public void PrintMessage() {
+		displayArea.setText(textToSend);
+		typingField.setText("");
 	}
 }

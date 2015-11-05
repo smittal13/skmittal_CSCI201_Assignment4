@@ -17,15 +17,18 @@ import javax.swing.border.EmptyBorder;
 import customUI.ClearPanel;
 import customUI.PaintedButton;
 import customUI.PaintedPanel;
+import game.GameHelpers;
 import library.FontLibrary;
 import library.ImageLibrary;
 import networking.MessageProcessor;
+import networking.SorryClient;
+import networking.SorryServer;
 
 public class ColorSelector extends PaintedPanel implements MessageProcessor {
 	
 	private static final long serialVersionUID = 1900724217285760485L;
 	
-	private Color selection;
+	private Color selection;	
 	private final int numOptions = 4;
 	private final PaintedButton[] optionButtons;
 	
@@ -102,22 +105,12 @@ public class ColorSelector extends PaintedPanel implements MessageProcessor {
 		for(JButton button : optionButtons) button.setEnabled(true);
 		optionButtons[buttonSelection].setEnabled(false);
 		confirmButton.setEnabled(true);
-		ProcessMessage(colorNames[buttonSelection]);
+		SorryServer.setColorSelection(selection);
 	}
 	
+	@Override
 	public void ProcessMessage(String message) {
-		if (message.equals("Red")) {
-			
-		}
-		else if (message.equals("Blue")) {
-			
-		}
-		else if (message.equals("Yellow")) {
-			
-		}
-		else {
-			
-		}
+		
 	}
 
 }

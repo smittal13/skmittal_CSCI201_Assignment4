@@ -35,7 +35,6 @@ public class GamePanel extends JPanel {
 	
 	private final static int boardSize = 16;
 	private final TilePanel[][] tileGrid;
-	private final ArrayList<SorryClient> clientArray;
 	
 	private final PaintedButton cardButton;
 	private final JLabel cardLabel;
@@ -57,11 +56,10 @@ public class GamePanel extends JPanel {
 		cardLabel.setFont(FontLibrary.getFont("fonts/kenvector_future.ttf", Font.PLAIN, 8));
 	}
 	
-	public GamePanel(ActionListener inQuitAction, GameManager inGameManager, Image inImage, ArrayList<SorryClient> clientArray){
+	public GamePanel(ActionListener inQuitAction, GameManager inGameManager, Image inImage){
 		gameLogo = inImage;
 		mGameManager = inGameManager;
 		mQuitAction = inQuitAction;
-		this.clientArray = clientArray;
 		setLayout(new GridLayout(boardSize,boardSize));
 		tileGrid = new TilePanel[boardSize][boardSize];
 		for(int y = 0; y < boardSize; ++y) {

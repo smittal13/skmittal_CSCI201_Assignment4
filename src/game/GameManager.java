@@ -28,7 +28,7 @@ public class GameManager implements MessageProcessor {
 	private int currentPlaying;
 	
 	//Main player information
-	private final int mainPlayer = 0;
+	private int mainPlayer = 0;
 	public Player getMainPlayer(){return livePlayers[mainPlayer];}
 	
 	//Info for two-step moves
@@ -65,20 +65,13 @@ public class GameManager implements MessageProcessor {
 	}
 	
 	//Set up once we know the players color and number selections
-	public void setUp(Color playerColor, int numLivePlayers) {
+	public void setUp(Color playerColor, int numLivePlayers, String[] playerColors) {
 		livePlayers = new Player[numLivePlayers];
-		int mainPlayerIndex = GameHelpers.getIndexFromColor(playerColor);
-		livePlayers[mainPlayer] = players[mainPlayerIndex];
-		switch(numLivePlayers) {
-			case 4:
-				livePlayers[3] = players[(mainPlayerIndex+3)%numPlayers];
-			case 3:
-				livePlayers[1] = players[(mainPlayerIndex+1)%numPlayers];
-				livePlayers[2] = players[(mainPlayerIndex+2)%numPlayers];
-			break;
-			case 2:
-				livePlayers[1] = players[(mainPlayerIndex+(numPlayers/2))%numPlayers];
-			break;
+		for (int i = 0; i < numLivePlayers; i++) {
+			livePlayers[i] = players[GameHelpers.getIndexColor(playerColors[i])];
+			if (playerColors[i].equalsIgnoreCase(GameHelpers.getNameFromColor(playerColor))) {
+				mainPlayer = i;
+			}
 		}
 	}
 	

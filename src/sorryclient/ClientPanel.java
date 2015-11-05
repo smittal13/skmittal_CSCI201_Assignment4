@@ -4,14 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 
+import game.GameHelpers;
 import game.GameManager;
 import library.ImageLibrary;
 import networking.*;
 
-public class ClientPanel extends JPanel {
+public class ClientPanel extends JPanel implements MessageProcessor {
 	private static final long serialVersionUID = 6415716059554739910L;
 	
 	private MainMenu mainMenu;
@@ -23,8 +25,9 @@ public class ClientPanel extends JPanel {
 	private ChatPanel chatPanel;
 	private JPanel mainGamePanel;
 	
+	private int numberOfPlayers;
+	
 	private GameManager gameManager;
-	private ArrayList<SorryClient> clientArray;
 	
 	{
 		mainMenu = new MainMenu(new ActionListener() {
@@ -67,7 +70,9 @@ public class ClientPanel extends JPanel {
 				ClientPanel.this.add(colorSelect);
 				ClientPanel.this.revalidate();
 				ClientPanel.this.repaint();
-				clientArray.add(new SorryClient(joinScreen.getHostString(), joinScreen.getPortInt(), false));
+				SorryClient c = new SorryClient(joinScreen.getHostString(), joinScreen.getPortInt());
+				SorryClient.SetMessageProcessor(ClientPanel.this);
+				SorryClient.SendString("numPlayers" + numPlayerSelect.getNumberOfPlayers());
 			}
 		},ImageLibrary.getImage("images/panels/grey_panel.png"));
 		numPlayerSelect = new NumPlayerSelector(new ActionListener() {
@@ -79,8 +84,9 @@ public class ClientPanel extends JPanel {
 				ClientPanel.this.repaint();
 				SorryServer ss = new SorryServer(hostScreen.getPortNumber(), numPlayerSelect.getNumberOfPlayers());
 				new Thread(ss).start();
-				clientArray = new ArrayList<SorryClient>();
-				clientArray.add(new SorryClient("localhost", hostScreen.getPortNumber(), true));
+				SorryClient c = new SorryClient("localhost", hostScreen.getPortNumber());
+				SorryClient.SetMessageProcessor(ClientPanel.this);
+				SorryClient.SendString("numPlayers" + numPlayerSelect.getNumberOfPlayers());
 			}
 		},ImageLibrary.getImage("images/panels/grey_panel.png"));
 		colorSelect = new ColorSelector(new ActionListener() {
@@ -89,7 +95,8 @@ public class ClientPanel extends JPanel {
 				ClientPanel.this.removeAll();
 				gameManager.setUp(
 					colorSelect.getPlayerColor(), 
-					numPlayerSelect.getNumberOfPlayers()
+					numberOfPlayers,
+					ColorArray()
 				);
 				ClientPanel.this.add(mainGamePanel);
 				ClientPanel.this.revalidate();
@@ -109,10 +116,24 @@ public class ClientPanel extends JPanel {
 				ClientPanel.this.repaint();
 				refreshComponents();
 			}
-		}, gameManager, ImageLibrary.getImage("images/sorry.png"), clientArray);
+		}, gameManager, ImageLibrary.getImage("images/sorry.png"));
 		
 		mainGamePanel.add(chatPanel, BorderLayout.SOUTH);
 		mainGamePanel.add(gamePanel, BorderLayout.CENTER);
+	}
+
+	public void ProcessMessage(String message) {
+		int i = Integer.parseInt(message);
+		numberOfPlayers = i;
+	}
+	
+	public String[] ColorArray() {
+		Vector<SorryThread> st = SorryServer.getClientColors();
+		String[] colorArray = new String[st.size()];
+		for (int i = 0; i < st.size(); i++) {
+			colorArray[i] = GameHelpers.getNameFromColor(st.get(i).getColor());
+		}
+		return colorArray;
 	}
 
 }

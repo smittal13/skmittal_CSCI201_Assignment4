@@ -9,11 +9,11 @@ import java.util.Scanner;
 
 public class SorryClient {
 	
-	BufferedReader br;
-	PrintWriter pw;
-	boolean turnTracker;
+	static BufferedReader br;
+	static PrintWriter pw;
+	static MessageProcessor m;
 	
-	public SorryClient(String hostname, int port, boolean turnTracker) {
+	public SorryClient(String hostname, int port) {
 		try {
 			Socket s = new Socket (hostname, port);
 			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -21,7 +21,6 @@ public class SorryClient {
 		} catch (IOException ioe) {
 			System.out.println("ioe: " + ioe.getMessage());
 		}
-		this.turnTracker = turnTracker;
 	}
 	public void run() {
 		try {
@@ -30,15 +29,24 @@ public class SorryClient {
 				if (line == null) {
 					break;
 				}
-				System.out.println(line);
+				if (line.startsWith("numPlayers")) {
+					char a = line.charAt(line.length()-1);
+					String s = Character.toString(a);
+					m.ProcessMessage(s);
+				}
 			}
 		} catch (IOException ioe) {
 			System.out.println("ioe chat client: " + ioe.getMessage());
 		}
 	}
 	
-	public void SendString(String line) {
-		pw.println("Sagar: " + line);
+	public static void SetMessageProcessor(MessageProcessor mp) {
+		m = mp;
+	}
+	
+	public static void SendString(String line) {
+		pw.println(line);
 		pw.flush();
 	}
+	
 }

@@ -1,5 +1,6 @@
 package networking;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,8 +8,9 @@ import java.util.Vector;
 
 public class SorryServer implements Runnable {
 
-	private Vector<SorryThread> stVector;
+	static Vector<SorryThread> stVector;
 	int p, limit;
+	static Color colorSelection;
 	
 	public SorryServer(int port, int limit) {
 		stVector = new Vector<SorryThread>();
@@ -37,7 +39,7 @@ public class SorryServer implements Runnable {
 				while (stVector.size() <= limit) {
 					System.out.println("waiting for connection...");
 					Socket s = ss.accept();
-					SorryThread st = new SorryThread(s, this);
+					SorryThread st = new SorryThread(s, this, colorSelection);
 					stVector.add(st);
 					sendMessageToAllClients("Connection from: " + s.getInetAddress(), null);
 					st.start();
@@ -46,5 +48,13 @@ public class SorryServer implements Runnable {
 		} catch (IOException ioe) {
 			System.out.println("Chat server ioe: " + ioe.getMessage());
 		}
+	}
+	
+	public static void setColorSelection(Color c) {
+		colorSelection = c;
+	}
+	
+	public static Vector<SorryThread> getClientColors() {
+		return stVector;
 	}
 }
