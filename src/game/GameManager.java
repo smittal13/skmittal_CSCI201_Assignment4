@@ -64,8 +64,25 @@ public class GameManager implements MessageProcessor {
 		cardDeck = new CardDeck();
 	}
 	
+	
 	//Set up once we know the players color and number selections
-	public void setUp(Color playerColor, int numLivePlayers, String[] playerColors) {
+	public void setUp(Color playerColor, int numLivePlayers) {
+		livePlayers = new Player[numLivePlayers];
+		int mainPlayerIndex = GameHelpers.getIndexFromColor(playerColor);
+		livePlayers[mainPlayer] = players[mainPlayerIndex];
+		switch(numLivePlayers) {
+			case 4:
+				livePlayers[3] = players[(mainPlayerIndex+3)%numPlayers];
+			case 3:
+				livePlayers[1] = players[(mainPlayerIndex+1)%numPlayers];
+				livePlayers[2] = players[(mainPlayerIndex+2)%numPlayers];
+			break;
+			case 2:
+				livePlayers[1] = players[(mainPlayerIndex+(numPlayers/2))%numPlayers];
+			break;
+		}
+	}
+	/*	public void setUp(Color playerColor, int numLivePlayers, String[] playerColors) {
 		livePlayers = new Player[numLivePlayers];
 		for (int i = 0; i < numLivePlayers; i++) {
 			livePlayers[i] = players[GameHelpers.getIndexColor(playerColors[i])];
@@ -74,7 +91,7 @@ public class GameManager implements MessageProcessor {
 			}
 		}
 	}
-	
+*/	
 	//Returns number of pawns at the given player's start
 	public String getPlayerStartCount(int mPlayerNum) {
 		int count = 0;

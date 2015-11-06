@@ -26,10 +26,16 @@ public class SorryClient {
 		try {
 			while (true) {
 				String line = br.readLine();
+				System.out.println("received this message... " + line);
 				if (line == null) {
 					break;
 				}
 				if (line.startsWith("numPlayers")) {
+					char a = line.charAt(line.length()-1);
+					String s = Character.toString(a);
+					m.ProcessMessage(s);
+				}
+				else if (line.startsWith("color")) {
 					char a = line.charAt(line.length()-1);
 					String s = Character.toString(a);
 					m.ProcessMessage(s);

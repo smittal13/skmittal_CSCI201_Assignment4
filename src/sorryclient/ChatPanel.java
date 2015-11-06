@@ -3,6 +3,7 @@ package sorryclient;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 import customUI.PaintedButton;
+import library.FontLibrary;
 import library.ImageLibrary;
 import networking.SorryClient;
 
@@ -32,6 +34,7 @@ public class ChatPanel extends JPanel {
 		bottomPanel = new JPanel();
 		
 		displayArea = new JTextArea();
+		displayArea.setFont(FontLibrary.getFont("fonts/kenvector_future_thin.ttf", Font.PLAIN, 28));
 		displayArea.setEditable(false);
 		displayArea.setBackground(Color.BLACK);
 		displayArea.setForeground(Color.WHITE);
@@ -43,7 +46,8 @@ public class ChatPanel extends JPanel {
 		jsp.setPreferredSize(new Dimension (640, 80));
 		add(jsp);
 		
-		typingField = new JTextField(this.WIDTH);
+		typingField = new JTextField(ChatPanel.this.WIDTH);
+		typingField.setFont(FontLibrary.getFont("fonts/kenvector_future_thin.ttf", Font.PLAIN, 28));
 		typingField.setPreferredSize(new Dimension (640, 25));
 		typingField.setBackground(Color.BLACK);
 		typingField.setForeground(Color.WHITE);

@@ -12,10 +12,9 @@ public class SorryThread extends Thread {
 	private PrintWriter pw;
 	private SorryServer ss;
 	private Socket s;
-	private Color c;
 	
 	String line = null;
-	public SorryThread(Socket s, SorryServer ss, Color c) {
+	public SorryThread(Socket s, SorryServer ss) {
 		this.s = s;
 		this.ss = ss;
 		try {
@@ -24,7 +23,6 @@ public class SorryThread extends Thread {
 		} catch (IOException ioe) {
 			System.out.println("IOE message chat thread: " + ioe.getMessage());
 		}
-		this.c = c;
 	}
 	public void sendMessage(String message) {
 		if (pw != null) {
@@ -39,14 +37,11 @@ public class SorryThread extends Thread {
 		PrintChatMessage();
 	}
 	
-	public Color getColor() {
-		return c;
-	}
-	
 	private void PrintChatMessage() {
 		try {
 			while (true) {
 				line = br.readLine();
+				System.out.println(line);
 				if (line != null) {
 					ss.sendMessageToAllClients(line, this);
 					line = null;

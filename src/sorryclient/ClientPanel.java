@@ -95,8 +95,7 @@ public class ClientPanel extends JPanel implements MessageProcessor {
 				ClientPanel.this.removeAll();
 				gameManager.setUp(
 					colorSelect.getPlayerColor(), 
-					numberOfPlayers,
-					ColorArray()
+					numberOfPlayers
 				);
 				ClientPanel.this.add(mainGamePanel);
 				ClientPanel.this.revalidate();
@@ -128,10 +127,11 @@ public class ClientPanel extends JPanel implements MessageProcessor {
 	}
 	
 	public String[] ColorArray() {
+		//You can't connect to something that hasn't been decided yet
 		Vector<SorryThread> st = SorryServer.getClientColors();
 		String[] colorArray = new String[st.size()];
 		for (int i = 0; i < st.size(); i++) {
-			colorArray[i] = GameHelpers.getNameFromColor(st.get(i).getColor());
+			//colorArray[i] = 
 		}
 		return colorArray;
 	}

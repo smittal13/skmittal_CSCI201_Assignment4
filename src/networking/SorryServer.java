@@ -11,6 +11,7 @@ public class SorryServer implements Runnable {
 	static Vector<SorryThread> stVector;
 	int p, limit;
 	static Color colorSelection;
+	static boolean readyToStart = false;
 	
 	public SorryServer(int port, int limit) {
 		stVector = new Vector<SorryThread>();
@@ -39,7 +40,7 @@ public class SorryServer implements Runnable {
 				while (stVector.size() <= limit) {
 					System.out.println("waiting for connection...");
 					Socket s = ss.accept();
-					SorryThread st = new SorryThread(s, this, colorSelection);
+					SorryThread st = new SorryThread(s, this);
 					stVector.add(st);
 					sendMessageToAllClients("Connection from: " + s.getInetAddress(), null);
 					st.start();
@@ -57,4 +58,5 @@ public class SorryServer implements Runnable {
 	public static Vector<SorryThread> getClientColors() {
 		return stVector;
 	}
+	
 }

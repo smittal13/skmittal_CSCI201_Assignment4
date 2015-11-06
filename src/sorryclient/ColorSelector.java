@@ -105,12 +105,15 @@ public class ColorSelector extends PaintedPanel implements MessageProcessor {
 		for(JButton button : optionButtons) button.setEnabled(true);
 		optionButtons[buttonSelection].setEnabled(false);
 		confirmButton.setEnabled(true);
-		SorryServer.setColorSelection(selection);
+	}
+	
+	public String getSelection() {
+		return GameHelpers.getNameFromColor(selection);
 	}
 	
 	@Override
 	public void ProcessMessage(String message) {
-		
+		optionButtons[Integer.parseInt(message)].setEnabled(false);
 	}
 
 }
